@@ -1,9 +1,10 @@
 const path = require("path")
 const webpack = require("webpack")
 const ESLintPlugin = require("eslint-webpack-plugin")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 
 module.exports = {
-    entry: { main: ["./src/index.js"], "component": ["./src/home.js", "./src/slider.js"] },
+    entry: { main: ["./src/index.js"], component: ["./src/home.js", "./src/slider.js"] },
     output: {
         filename: "[name].js",
         path: path.resolve(__dirname, "dist")
@@ -14,7 +15,8 @@ module.exports = {
             $: "jquery",
             jQuery: "jquery"
         }),
-        new ESLintPlugin()
+        new ESLintPlugin(),
+        new CleanWebpackPlugin(),
     ],
     module: {
         rules: [
@@ -29,19 +31,25 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/i,
-                use: ["style-loader", {
-                    loader: "css-loader",
-                    options: { url: false }
-                }],
+                test: /\.s[ac]ss$/i,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    "sass-loader",
+                ],
             },
             {
-                test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
-                loader: "file-loader",
-                options: {
-                    name: "[path][name].[ext]",
+                test: /\.(png|jpe?g|gif)$/i,
+                type: "asset/resource",
+                generator: {
+                    filename: "images/[name][ext][query]",
                 },
             },
         ],
+    },
+    resolve: {
+        alias: {
+            images: path.resolve(__dirname, "src/images"),
+        },
     },
 }

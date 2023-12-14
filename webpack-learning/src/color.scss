@@ -1,0 +1,8 @@
+$base-color: #c6538c;
+$border-dark: rgba($base-color, 0.88);
+
+body {
+    border: 1px solid $base-color;
+    color: $border-dark;
+    background-image: url("~images/example.jpg");
+}
