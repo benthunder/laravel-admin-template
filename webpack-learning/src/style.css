@@ -1,0 +1,5 @@
+body {
+    color: "red";
+    background-image: url("images/example.jpg");
+    border: 1px red solid;
+}
